@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "ua.d1ekart0ffel.irongrowers.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "irongrowers.refmap.json",
+  "mixins": [
+    "WaterMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

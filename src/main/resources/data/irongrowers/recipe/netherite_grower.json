@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "irongrowers",
+  "pattern": [
+    "AAA",
+    "BCB",
+    "ADA"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:netherite_block"
+    },
+    "B": {
+      "item": "minecraft:netherite_ingot"
+    },
+    "C": {
+      "item": "irongrowers:diamond_grower"
+    },
+    "D": {
+      "item": "minecraft:echo_shard"
+    }
+  },
+  "result": {
+    "id": "irongrowers:netherite_grower",
+    "count": 1
+  }
+}

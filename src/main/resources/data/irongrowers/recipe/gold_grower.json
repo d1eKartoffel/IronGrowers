@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "irongrowers",
+  "pattern": [
+    "AAA",
+    "BCB",
+    "ADA"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:gold_block"
+    },
+    "B": {
+      "tag": "c:ingots/gold"
+    },
+    "C": {
+      "item": "irongrowers:iron_grower"
+    },
+    "D": {
+      "item": "minecraft:bone_block"
+    }
+  },
+  "result": {
+    "id": "irongrowers:gold_grower",
+    "count": 1
+  }
+}
