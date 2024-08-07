@@ -29,7 +29,7 @@ public class BlockRegistry {
             "diamond_grower", ()-> new GrowerBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DIAMOND_BLOCK),80,4,80));
 
     public static final DeferredHolder<Block, GrowerBlock> NETHERITE_GROWER_BLOCK = BLOCKS.register(
-            "netherite_grower", ()-> new GrowerBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK),60,4, 90ё));
+            "netherite_grower", ()-> new GrowerBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK),60,4, 90));
 
     public static void register(IEventBus modEventBus) {
         BLOCKS.register(modEventBus);

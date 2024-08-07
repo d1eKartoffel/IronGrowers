@@ -1,6 +1,9 @@
 package ua.d1ekart0ffel.irongrowers.blockentities;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.ParticleUtils;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -20,6 +23,8 @@ public class GrowerBlockEntity extends BlockEntity {
         if (level.isClientSide() || blockEntity.tickCount % growthSpeed != 0) {
             return;
         }
+
+        ServerLevel server = (ServerLevel) level;
 
         int x = pos.getX();
         int y = pos.getY();
@@ -50,6 +55,7 @@ public class GrowerBlockEntity extends BlockEntity {
 
                     if (age < maxAge) {
                         level.setBlock(blockScanPos, cropBlock.getStateForAge(age + 1), 2);
+                        server.sendParticles(ParticleTypes.HAPPY_VILLAGER, blockScanPos.getX()+0.5, blockScanPos.getY()+0.5,blockScanPos.getZ()+0.5, 5, 0.25, 0.25, 0.25, 0.1);
                     }
                 }
             }
