@@ -1,5 +1,27 @@
-# Project exclude paths
-/.gradle/
-/build/
-/build/classes/java/main/
-/src/main/resources/assets/irongrowers/
+# eclipse
+bin
+*.launch
+.settings
+.metadata
+.classpath
+.project
+
+# idea
+out
+*.ipr
+*.iws
+*.iml
+.idea
+
+# gradle
+build
+.gradle
+
+# other
+eclipse
+logs
+run
+runs
+
+# Files from Forge MDK
+forge*changelog.txt
