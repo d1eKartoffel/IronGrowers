@@ -16,16 +16,17 @@ public class GrowerBlockEntity extends BlockEntity {
 
     private int tickCount;
 
-    public static void tick(Level level, BlockPos pos, BlockState state, GrowerBlockEntity blockEntity, int growthSpeed, int radius, int growthChance) {
+    public static void tick(Level level, BlockPos pos, BlockState state, GrowerBlockEntity blockEntity, double growthInterval, int radius, int growthChance) {
 
+        growthInterval = growthInterval*20;
         blockEntity.tickCount++;
-        if (level.isClientSide() || blockEntity.tickCount % growthSpeed != 0) {
+        if (level.isClientSide() || blockEntity.tickCount % growthInterval != 0) {
             return;
         }
 
         ServerLevel server = (ServerLevel) level;
 
-        for (BlockPos blockScanPos : BlockPos.betweenClosed(pos.offset(-4, 0, -4), pos.offset(4, 0, 4))) {
+        for (BlockPos blockScanPos : BlockPos.betweenClosed(pos.offset(-radius, 0, -radius), pos.offset(radius, 0, radius))) {
             if (blockScanPos != null && level.getRandom().nextInt(100) <= growthChance) {
                 BlockState cropstate = level.getBlockState(blockScanPos);
 

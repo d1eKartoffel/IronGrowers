@@ -16,14 +16,14 @@ import ua.d1ekart0ffel.irongrowers.registry.BlockRegistry;
 
 public class GrowerBlock extends Block implements EntityBlock {
 
-    public GrowerBlock(Properties properties, int growthSpeed, int radius, int growthChance) {
+    public GrowerBlock(Properties properties, double growthInterval, int radius, int growthChance) {
         super(properties);
-        this.growthSpeed = growthSpeed;
+        this.growthInterval = growthInterval;
         this.radius = radius;
         this.growthChance = growthChance;
     }
 
-    private final int growthSpeed;
+    private final double growthInterval;
     private final int radius;
     private final int growthChance;
 
@@ -36,7 +36,7 @@ public class GrowerBlock extends Block implements EntityBlock {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return getTicker(type, BlockEntityRegistry.GROWER_BLOCK_ENTITY.get(), (level1, pos, state1, blockEntity) -> GrowerBlockEntity.tick(level1, pos, state1, blockEntity, growthSpeed, radius, growthChance));
+        return getTicker(type, BlockEntityRegistry.GROWER_BLOCK_ENTITY.get(), (level1, pos, state1, blockEntity) -> GrowerBlockEntity.tick(level1, pos, state1, blockEntity, growthInterval, radius, growthChance));
     }
 
     @Nullable

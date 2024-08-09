@@ -7,8 +7,10 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.loading.FMLConfig;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import ua.d1ekart0ffel.irongrowers.Config;
 import ua.d1ekart0ffel.irongrowers.IronGrowers;
 import ua.d1ekart0ffel.irongrowers.blocks.GrowerBlock;
 
@@ -17,19 +19,19 @@ public class BlockRegistry {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(BuiltInRegistries.ITEM, IronGrowers.MODID);
 
     public static final DeferredHolder<Block, GrowerBlock> COPPER_GROWER_BLOCK = BLOCKS.register(
-            "copper_grower", ()-> new GrowerBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK),200,4, 10));
+            "copper_grower", ()-> new GrowerBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK), Config.GROWTH_INTERVAL_COPPER.get(), Config.RADIUS_COPPER.get(), Config.GROWTH_CHANCE_COPPER.get()));
 
     public static final DeferredHolder<Block, GrowerBlock> IRON_GROWER_BLOCK = BLOCKS.register(
-            "iron_grower", ()-> new GrowerBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK),150,4,20));
+            "iron_grower", ()-> new GrowerBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK), Config.GROWTH_INTERVAL_IRON.get(), Config.RADIUS_IRON.get(),Config.GROWTH_CHANCE_IRON.get()));
 
     public static final DeferredHolder<Block, GrowerBlock> GOLD_GROWER_BLOCK = BLOCKS.register(
-            "gold_grower", ()-> new GrowerBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GOLD_BLOCK),130,4, 40));
+            "gold_grower", ()-> new GrowerBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GOLD_BLOCK), Config.GROWTH_INTERVAL_GOLD.get(), Config.RADIUS_GOLD.get(), Config.GROWTH_CHANCE_GOLD.get()));
 
     public static final DeferredHolder<Block, GrowerBlock> DIAMOND_GROWER_BLOCK = BLOCKS.register(
-            "diamond_grower", ()-> new GrowerBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DIAMOND_BLOCK),80,4,80));
+            "diamond_grower", ()-> new GrowerBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DIAMOND_BLOCK), Config.GROWTH_INTERVAL_DIAMOND.get(),Config.RADIUS_DIAMOND.get(),Config.GROWTH_CHANCE_DIAMOND.get()));
 
     public static final DeferredHolder<Block, GrowerBlock> NETHERITE_GROWER_BLOCK = BLOCKS.register(
-            "netherite_grower", ()-> new GrowerBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK),60,4, 90));
+            "netherite_grower", ()-> new GrowerBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.NETHERITE_BLOCK), Config.GROWTH_INTERVAL_NETHERITE.get(), Config.RADIUS_NETHERITE.get(), Config.GROWTH_CHANCE_NETHERITE.get()));
 
     public static void register(IEventBus modEventBus) {
         BLOCKS.register(modEventBus);
