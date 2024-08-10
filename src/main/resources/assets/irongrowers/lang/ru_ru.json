@@ -1,4 +1,6 @@
 {
+  "itemGroup.irongrowers": "Iron Growers",
+
   "block.irongrowers.copper_grower": "Медный выращиватель",
   "block.irongrowers.iron_grower": "Железный выращиватель",
   "block.irongrowers.gold_grower": "Золотой выращиватель",

@@ -8,6 +8,7 @@ import net.neoforged.fml.config.ModConfig;
 import org.slf4j.Logger;
 import ua.d1ekart0ffel.irongrowers.registry.BlockEntityRegistry;
 import ua.d1ekart0ffel.irongrowers.registry.BlockRegistry;
+import ua.d1ekart0ffel.irongrowers.registry.CreativeTabRegistry;
 
 @Mod(IronGrowers.MODID)
 public class IronGrowers {
@@ -21,5 +22,6 @@ public class IronGrowers {
 
         BlockRegistry.register(modEventBus);
         BlockEntityRegistry.register(modEventBus);
+        CreativeTabRegistry.register(modEventBus);
     }
 }
