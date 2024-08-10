@@ -1,4 +1,6 @@
 {
+  "itemGroup.irongrowers": "Iron Growers",
+
   "block.irongrowers.copper_grower": "Copper Grower",
   "block.irongrowers.iron_grower": "Iron Grower",
   "block.irongrowers.gold_grower": "Gold Grower",
