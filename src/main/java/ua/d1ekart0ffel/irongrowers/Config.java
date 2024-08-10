@@ -22,13 +22,6 @@ public class Config {
     public static final ModConfigSpec.DoubleValue GROWTH_INTERVAL_DIAMOND;
     public static final ModConfigSpec.DoubleValue GROWTH_INTERVAL_NETHERITE;
 
-    //Radius
-    public static final ModConfigSpec.IntValue RADIUS_COPPER;
-    public static final ModConfigSpec.IntValue RADIUS_IRON;
-    public static final ModConfigSpec.IntValue RADIUS_GOLD;
-    public static final ModConfigSpec.IntValue RADIUS_DIAMOND;
-    public static final ModConfigSpec.IntValue RADIUS_NETHERITE;
-
     static {
         ModConfigSpec.Builder COMMON_BUILDER = new ModConfigSpec.Builder();
 
@@ -53,18 +46,6 @@ public class Config {
                 .defineInRange("growthIntervalDiamond", 1.5,0,Double.MAX_VALUE);
         GROWTH_INTERVAL_NETHERITE = COMMON_BUILDER.comment("Time in seconds needed for next crop growing for Netherite Grower")
                 .defineInRange("growthIntervalNetherite", 1,0,Double.MAX_VALUE);
-
-        RADIUS_COPPER = COMMON_BUILDER.comment("Radius of crop growing for Copper Grower")
-                .defineInRange("growthRadiusCopper", 4,0,Integer.MAX_VALUE);
-        RADIUS_IRON = COMMON_BUILDER.comment("Radius of crop growing for Iron Grower")
-                .defineInRange("growthRadiusIron", 4,0,Integer.MAX_VALUE);
-        RADIUS_GOLD = COMMON_BUILDER.comment("Radius of crop growing for Gold Grower")
-                .defineInRange("growthRadiusGold", 4,0,Integer.MAX_VALUE);
-        RADIUS_DIAMOND = COMMON_BUILDER.comment("Radius of crop growing for Diamond Grower")
-                .defineInRange("growthRadiusDiamond", 4,0,Integer.MAX_VALUE);
-        RADIUS_NETHERITE = COMMON_BUILDER.comment("Radius of crop growing for Netherite Grower")
-                .defineInRange("growthRadiusNetherite", 4,0,Integer.MAX_VALUE);
-
 
         COMMON_CONFIG = COMMON_BUILDER.build();
     }
