@@ -30,8 +30,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class GrowerBlockEntity extends BaseContainerBlockEntity implements WorldlyContainer {
-
-    private int progress;
+    private int progress = -1;
     private int maxProgress;
     private static final int[] FUEL_SLOTS = new int[]{0};
     private static final int INVENTORY_SIZE = 1;
@@ -48,7 +47,6 @@ public class GrowerBlockEntity extends BaseContainerBlockEntity implements World
         this.inventory = createHandler();
     }
 
-    //Grower fuels
     public static final Map<Item, Integer> GROWER_FUEL = new HashMap<>() {{
         put(Items.BONE_MEAL, 100);
         put(Items.BONE_BLOCK, 900);
@@ -57,8 +55,6 @@ public class GrowerBlockEntity extends BaseContainerBlockEntity implements World
     private int tickCount;
 
     public static void serverTick(ServerLevel level, BlockPos pos, BlockState state, GrowerBlockEntity blockEntity, double growthInterval, int radius, int growthChance) {
-
-
         growthInterval = growthInterval * 20;
         blockEntity.tickCount++;
         if (blockEntity.tickCount % growthInterval != 0) {
@@ -66,34 +62,30 @@ public class GrowerBlockEntity extends BaseContainerBlockEntity implements World
         }
 
         for (BlockPos blockScanPos : BlockPos.betweenClosed(pos.offset(-radius, 0, -radius), pos.offset(radius, 0, radius))) {
+            if (!(blockScanPos != null && level.getRandom().nextInt(100) <= growthChance)) continue;
+            BlockState cropstate = level.getBlockState(blockScanPos);
 
-            if (blockScanPos != null && level.getRandom().nextInt(100) <= growthChance) {
-                BlockState cropstate = level.getBlockState(blockScanPos);
+            if (!(cropstate.getBlock() instanceof CropBlock cropBlock)) continue;
 
-                if (cropstate.getBlock() instanceof CropBlock cropBlock) {
+            int age = cropBlock.getAge(cropstate);
+            int maxAge = cropBlock.getMaxAge();
 
-                    int age = cropBlock.getAge(cropstate);
-                    int maxAge = cropBlock.getMaxAge();
-
-                    if (age < maxAge) {
-                        //Fuel logic
-                        if (blockEntity.progress >= 0) {
-                            blockEntity.progress--;
-                            //Growing plants logic and particle spawning per each grow stage
-                            level.setBlock(blockScanPos, cropBlock.getStateForAge(age + 1), 2);
-                            level.sendParticles(ParticleTypes.HAPPY_VILLAGER, blockScanPos.getX() + 0.5, blockScanPos.getY() + 0.5, blockScanPos.getZ() + 0.5, 5, 0.25, 0.25, 0.25, 0.1);
-                            blockEntity.setChanged();
-                        } else {
-                            ItemStack itemstack = blockEntity.inventory.getStackInSlot(0);
-                            if (GROWER_FUEL.containsKey(itemstack.getItem())) {
-                                blockEntity.maxProgress = GROWER_FUEL.get(itemstack.getItem());
-                                itemstack.shrink(1);
-                                blockEntity.progress = blockEntity.maxProgress;
-                                blockEntity.inventoryChanged();
-                                blockEntity.setChanged();
-                            }
-                        }
-                    }
+            if (age >= maxAge) continue;
+            //Fuel logic
+            if (blockEntity.progress >= 0) {
+                blockEntity.progress--;
+                //Growing plants logic and particle spawning per each grow stage
+                level.setBlock(blockScanPos, cropBlock.getStateForAge(age + 1), 2);
+                level.sendParticles(ParticleTypes.HAPPY_VILLAGER, blockScanPos.getX() + 0.5, blockScanPos.getY() + 0.5, blockScanPos.getZ() + 0.5, 5, 0.25, 0.25, 0.25, 0.1);
+                blockEntity.setChanged();
+            } else {
+                ItemStack itemstack = blockEntity.inventory.getStackInSlot(0);
+                if (GROWER_FUEL.containsKey(itemstack.getItem())) {
+                    blockEntity.maxProgress = GROWER_FUEL.get(itemstack.getItem());
+                    itemstack.shrink(1);
+                    blockEntity.progress = blockEntity.maxProgress;
+                    blockEntity.inventoryChanged();
+                    blockEntity.setChanged();
                 }
             }
         }
@@ -149,13 +141,11 @@ public class GrowerBlockEntity extends BaseContainerBlockEntity implements World
         inventory.deserializeNBT(registries, tag.getCompound("Inventory"));
         progress = tag.getInt("Progress");
         maxProgress = tag.getInt("MaxProgress");
-        //ContainerHelper.loadAllItems(tag, this.items, registries);
     }
 
     @Override
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);
-        //ContainerHelper.saveAllItems(tag, this.items, registries);
         tag.putInt("Progress", progress);
         tag.putInt("MaxProgress", maxProgress);
         tag.put("Inventory", inventory.serializeNBT(registries));
