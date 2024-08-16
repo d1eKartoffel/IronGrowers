@@ -4,6 +4,7 @@
     "irongrowers:copper_grower",
     "irongrowers:iron_grower",
     "irongrowers:gold_grower",
-    "irongrowers:diamond_grower"
+    "irongrowers:diamond_grower",
+    "irongrowers:netherite_grower"
   ]
 }
