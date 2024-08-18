@@ -9,6 +9,8 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -17,7 +19,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.ItemStackHandler;
@@ -48,8 +49,8 @@ public class GrowerBlockEntity extends BaseContainerBlockEntity implements World
     }
 
     public static final Map<Item, Integer> GROWER_FUEL = new HashMap<>() {{
-        put(Items.BONE_MEAL, 100);
-        put(Items.BONE_BLOCK, 900);
+        put(Items.BONE_MEAL, 50);
+        put(Items.BONE_BLOCK, 450);
     }};
 
     private int tickCount;
@@ -61,33 +62,34 @@ public class GrowerBlockEntity extends BaseContainerBlockEntity implements World
             return;
         }
 
+        boolean mayContinue = false;
+
+         if (blockEntity.progress < 0) {
+            ItemStack itemstack = blockEntity.inventory.getStackInSlot(0);
+            if (GROWER_FUEL.containsKey(itemstack.getItem())) {
+                blockEntity.maxProgress = GROWER_FUEL.get(itemstack.getItem());
+                itemstack.shrink(1);
+                level.playSound(null, blockEntity.getBlockPos(), SoundEvents.BONE_MEAL_USE, SoundSource.BLOCKS, 1.0F, 1.0F);
+                blockEntity.progress = blockEntity.maxProgress;
+                blockEntity.inventoryChanged();
+                blockEntity.setChanged();
+            }  else return;
+        }
+
         for (BlockPos blockScanPos : BlockPos.betweenClosed(pos.offset(-radius, 0, -radius), pos.offset(radius, 0, radius))) {
             if (!(blockScanPos != null && level.getRandom().nextInt(100) <= growthChance)) continue;
             BlockState cropstate = level.getBlockState(blockScanPos);
 
-            if (!(cropstate.getBlock() instanceof CropBlock cropBlock)) continue;
+            if (!(cropstate.getBlock() instanceof IGrowerCrop growerCrop)) continue;
 
-            int age = cropBlock.getAge(cropstate);
-            int maxAge = cropBlock.getMaxAge();
-
-            if (age >= maxAge) continue;
-            //Fuel logic
-            if (blockEntity.progress >= 0) {
-                blockEntity.progress--;
-                //Growing plants logic and particle spawning per each grow stage
-                level.setBlock(blockScanPos, cropBlock.getStateForAge(age + 1), 2);
+            if (growerCrop.ironGrowers$growCrop(level, blockScanPos, cropstate)) {
                 level.sendParticles(ParticleTypes.HAPPY_VILLAGER, blockScanPos.getX() + 0.5, blockScanPos.getY() + 0.5, blockScanPos.getZ() + 0.5, 5, 0.25, 0.25, 0.25, 0.1);
-                blockEntity.setChanged();
-            } else {
-                ItemStack itemstack = blockEntity.inventory.getStackInSlot(0);
-                if (GROWER_FUEL.containsKey(itemstack.getItem())) {
-                    blockEntity.maxProgress = GROWER_FUEL.get(itemstack.getItem());
-                    itemstack.shrink(1);
-                    blockEntity.progress = blockEntity.maxProgress;
-                    blockEntity.inventoryChanged();
-                    blockEntity.setChanged();
-                }
+                mayContinue = true;
             }
+        }
+        if (mayContinue) {
+            blockEntity.progress--;
+            blockEntity.setChanged();
         }
     }
 
