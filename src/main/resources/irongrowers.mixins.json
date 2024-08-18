@@ -5,6 +5,8 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "irongrowers.refmap.json",
   "mixins": [
+    "CropMixin",
+    "PitcherCropMixin",
     "WaterMixin"
   ],
   "client": [
