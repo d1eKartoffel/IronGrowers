@@ -5,8 +5,13 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "irongrowers.refmap.json",
   "mixins": [
+    "CactusMixin",
     "CropMixin",
+    "KelpBodyMixin",
+    "KelpHeadMixin",
     "PitcherCropMixin",
+    "SugarCaneMixin",
+    "TorchflowerCropMixin",
     "WaterMixin"
   ],
   "client": [

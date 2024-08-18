@@ -10,7 +10,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import ua.d1ekart0ffel.irongrowers.blockentities.IGrowerCrop;
 
 @Mixin(PitcherCropBlock.class)
-
 public class PitcherCropMixin implements IGrowerCrop {
 
     @Override
